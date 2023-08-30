@@ -128,14 +128,11 @@ additive_identity_zero,
 existence_of_difference
 ]
 
-statements = 'p[0]','p[1]','p[2]'
-
 axioms.extend(p(i) for i in range(2,7) for p in [divide_by_natural, remainder_mod_natural, zero_not_one_mod_natural])
-
-# Testing the parser on the provided examples
 
 for p in axioms:
     print(p)
+    print(parse(p))
 
 print(modus_podens('¬⇒p[0]¬⇒p[0]p[1]'))
 print(existential_instantiation('⇒∃x[0]p[0]p[1]'))
