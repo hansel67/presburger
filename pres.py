@@ -93,6 +93,21 @@ def eval_ast(ast):
         return f"+{eval_ast(ast[1])}{eval_ast(ast[2])}"
     else:
         raise ValueError(f"Unexpected AST node: {ast}")
+
+def disp(expression):
+    expression = substitution_for_in('p','p[0]',expression)
+    expression = substitution_for_in('q','p[1]',expression)
+    expression = substitution_for_in('r','p[2]',expression)
+    expression = substitution_for_in('s','p[3]',expression)
+    expression = substitution_for_in('t','p[4]',expression)
+    expression = substitution_for_in('x','x[0]',expression)
+    expression = substitution_for_in('y','x[1]',expression)
+    expression = substitution_for_in('z','x[2]',expression)
+    expression = substitution_for_in('a','x[3]',expression)
+    expression = substitution_for_in('b','x[4]',expression)
+    expression = substitution_for_in('c','x[5]',expression)
+    print(expression)
+
 contains = lambda lst,sub : any(lst[i:i+len(sub)] == sub for i in range(len(lst) - len(sub) + 1))
 
 transitivity_of_implies = '⇒⇒p[0]p[1]⇒⇒p[1]p[2]⇒p[0]p[2]'
@@ -113,7 +128,7 @@ zero_not_one_mod_natural = lambda a: '¬=0'+'+'*a+'x[0]'*a+'1'
 existential_instantiation = lambda CExpq : (lambda p :'⇒'+eval_ast(p[1][2])+eval_ast(p[2]) if p[0] == '⇒' and p[1][0] == '∃' else None)(parse(CExpq)) #⇒pq
 modus_podens = lambda NCpNCpq : (lambda r : eval_ast(r[1][2][1][2]) if r[0] == '¬' and r[1][0] == '⇒' and r[1][1] == r[1][2][1][1] and r[1][2][0] == '¬' and r[1][2][1][0] == '⇒' else None)(parse(NCpNCpq)) #q
 existential_generalization = lambda pq,x: '⇒∃'+x+eval_ast(parse(pq)[1])+eval_ast(parse(pq)[2]) if pq[0] == '⇒' and x in tokenize(eval_ast(parse(pq)[1])) and not(contains(tokenize(eval_ast(parse(pq)[1])),['∃',x])) and not x in tokenize(eval_ast(parse(pq)[2])) else None ##λ⇒p(x)q,x.⇒∃xpq
-substitution_for_in = lambda p,q,r: r.replace(q,p) if q in tokenize(r) else None
+substitution_for_in = lambda p,q,r: r.replace(q,p)
 
 axioms = [
 transitivity_of_implies,
@@ -130,10 +145,14 @@ existence_of_difference
 
 axioms.extend(p(i) for i in range(2,7) for p in [divide_by_natural, remainder_mod_natural, zero_not_one_mod_natural])
 
-for p in axioms:
-    print(p)
-    print(parse(p))
+# Testing the parser on the provided examples
 
-print(modus_podens('¬⇒p[0]¬⇒p[0]p[1]'))
-print(existential_instantiation('⇒∃x[0]p[0]p[1]'))
-print(existential_generalization('⇒'+associativity_of_plus+'p[1]','x[0]'))
+for p in axioms:
+    disp(p)
+
+disp(modus_podens('¬⇒p[0]¬⇒p[0]p[1]'))
+disp(existential_instantiation('⇒∃x[0]p[0]p[1]'))
+disp(existential_generalization('⇒'+associativity_of_plus+'p[1]','x[0]'))
+
+for p in axioms:
+    print(parse(p))
