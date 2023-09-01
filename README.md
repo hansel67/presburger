@@ -3,7 +3,7 @@
 ## Takes as input a sentence in Presburger arithmetic and decides whether it is true or false.
 
 References:
- * On the Completeness of a Certain System of Arithmetic of Whole Numbers in Which Addition Occurs as the Only Operation, Mojżesz Presburger 1928
+ * On the Completeness of a Certain System of Arithmetic of Whole Numbers in Which Addition Occurs as the Only Operation. Mojżesz Presburger. 1928
  
 Working components:
  * Axioms
