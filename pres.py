@@ -145,8 +145,6 @@ existence_of_difference
 
 axioms.extend(p(i) for i in range(2,7) for p in [divide_by_natural, remainder_mod_natural, zero_not_one_mod_natural])
 
-# Testing the parser on the provided examples
-
 for p in axioms:
     disp(p)
 
